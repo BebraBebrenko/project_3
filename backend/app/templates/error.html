@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ошибка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <p>{{ error }}</p>
+    <a href="{{ url_for('weather.weather_route') }}">Вернуться на главную</a>
+</body>
+</html>

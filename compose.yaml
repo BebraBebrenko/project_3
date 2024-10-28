@@ -1,0 +1,43 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+services:
+  nginx: 
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      
+      # - ./nginx/nginx.crt:/etc/nginx/ssl/nginx.crt
+    ports:
+      - 80:80
+      - 443:443
+      - 8000:8000
+    networks:
+      - net
+    environment:
+      - ENV=development
+      - APPLICATION_URL=http://backend
+      - PYTHONUNBUFFERED=1
+
+  server:
+    build:
+      context: ./backend
+    container_name: backend
+    develop:
+      watch: 
+        - path: ./backend/app
+          action: rebuild
+    expose:
+      - "8000"
+    networks:
+      - net
+
+networks:
+  net:

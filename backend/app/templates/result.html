@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз Погоды</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .weather-section {
+            margin-bottom: 30px;
+        }
+        .good {
+            color: green;
+        }
+        .bad {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Прогноз погоды для маршрута {{ start }} - {{ end }}</h1>
+
+    <div class="weather-section">
+        <h2>Погода в {{ start }}:</h2>
+        <p><strong>Состояние:</strong> {{ start_weather['WeatherText'] }}</p>
+        <p><strong>Температура:</strong> {{ start_weather['Temperature']['Metric']['Value'] }} {{ start_weather['Temperature']['Metric']['Unit'] }}</p>
+        <p><strong>Скорость ветра:</strong> {{ start_weather['Wind']['Speed']['Metric']['Value'] }} км/ч</p>
+        <p><strong>Дневное время:</strong> {{ 'Да' if start_weather['IsDayTime'] else 'Нет' }}</p>
+        <p><strong>Осадки:</strong> {{ 'Да' if start_weather['HasPrecipitation'] else 'Нет' }}</p>
+        <p><strong>Оценка погодных условий:</strong> 
+            {% if start_assessment.startswith("Неблагоприятные") %}
+                <span class="bad">{{ start_assessment }}</span>
+            {% else %}
+                <span class="good">{{ start_assessment }}</span>
+            {% endif %}
+        </p>
+        <a href="{{ start_weather['Link'] }}">Подробнее</a>
+    </div>
+
+    <div class="weather-section">
+        <h2>Погода в {{ end }}:</h2>
+        <p><strong>Состояние:</strong> {{ end_weather['WeatherText'] }}</p>
+        <p><strong>Температура:</strong> {{ end_weather['Temperature']['Metric']['Value'] }} {{ end_weather['Temperature']['Metric']['Unit'] }}</p>
+        <p><strong>Скорость ветра:</strong> {{ end_weather['Wind']['Speed']['Metric']['Value'] }} км/ч</p>
+        <p><strong>Дневное время:</strong> {{ 'Да' if end_weather['IsDayTime'] else 'Нет' }}</p>
+        <p><strong>Осадки:</strong> {{ 'Да' if end_weather['HasPrecipitation'] else 'Нет' }}</p>
+        <p><strong>Оценка погодных условий:</strong> 
+            {% if end_assessment.startswith("Неблагоприятные") %}
+                <span class="bad">{{ end_assessment }}</span>
+            {% else %}
+                <span class="good">{{ end_assessment }}</span>
+            {% endif %}
+        </p>
+        <a href="{{ end_weather['Link'] }}">Подробнее</a>
+    </div>
+
+    <br><br>
+    <a href="{{ url_for('weather.weather_route') }}">Назад</a>
+</body>
+</html>

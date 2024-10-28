@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Route</title>
+</head>
+<body>
+    <h1>Введите начальную и конечную точки маршрута</h1>
+    <form action="/weather/route" method="POST">
+        <label for="start">Начальная точка:</label>
+        <input type="text" id="start" name="start" required>
+        <br>
+        <label for="end">Конечная точка:</label>
+        <input type="text" id="end" name="end" required>
+        <br>
+        <button type="submit">Получить прогноз погоды</button>
+    </form>
+</body>
+</html>
