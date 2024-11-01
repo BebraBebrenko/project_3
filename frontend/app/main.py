@@ -72,12 +72,12 @@ def add_route_and_markers(_):
     route_positions = []
     
     for city in cities:
-        coords = get_city_coordinates(city)
-        if coords:
-            route_positions.append(coords)
-            marker = dash_leaflet.Marker(position=coords, children=[
+        coordinates = get_city_coordinates(city)
+        if coordinates:
+            route_positions.append(coordinates)
+            marker = dash_leaflet.Marker(position=coordinates, children=[
                 dash_leaflet.Tooltip(city),
-                dash_leaflet.Popup([html.H3(city), html.P("Нажмите для данных")])
+                dash_leaflet.Popup([html.H3(city), html.P("")])
             ], id={'type': 'marker', 'index': city})
             city_markers.append(marker)
     return city_markers, route_positions
@@ -88,9 +88,6 @@ def add_route_and_markers(_):
     Input({'type': 'marker', 'index': ALL}, 'n_clicks')
 )
 def update_graph(selected_metric, days, _):
-    triggered = callback_context.triggered[0]['value']
-    print(ctx.triggered_id)
-
     city_name = cities[0] if len(cities) > 0 else None
     def replace_value(input_str):
         mapping = {
