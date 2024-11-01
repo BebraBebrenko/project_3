@@ -4,12 +4,10 @@ from datetime import datetime
 from dotenv import load_dotenv
 import os
 
-# Загрузка переменных окружения из .env файла
 load_dotenv()
 
 # Получение API_KEY
 API_KEY = os.getenv("API_KEY")
-print(API_KEY)
 
 
 def get_weather_data(city, days):
