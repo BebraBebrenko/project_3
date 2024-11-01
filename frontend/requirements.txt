@@ -1,0 +1,10 @@
+Flask==3.0.3
+requests==2.32.3
+gunicorn
+requests_mock
+uvicorn
+dash
+dash_bootstrap_components
+dash_leaflet
+pandas
+plotly

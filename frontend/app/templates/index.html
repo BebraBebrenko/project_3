@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма маршрута</title>
+    <script>
+        function validateForm(event) {
+            const startPoint = document.getElementById('start_point').value;
+            const endPoint = document.getElementById('end_point').value;
+            const intermediateCities = document.querySelectorAll('.intermediate-city');
+            const regex = /^[а-яёА-ЯЁa-zA-Z\s]+$/;
+
+            if (!regex.test(startPoint)) {
+                alert("Начальная точка должна содержать только буквы и пробелы.");
+                event.preventDefault();
+                return false;
+            }
+
+            if (!regex.test(endPoint)) {
+                alert("Конечная точка должна содержать только буквы и пробелы.");
+                event.preventDefault();
+                return false;
+            }
+
+            // Проверяем промежуточные города
+            for (let i = 0; i < intermediateCities.length; i++) {
+                if (!regex.test(intermediateCities[i].value)) {
+                    alert("Промежуточные города должны содержать только буквы и пробелы. Проверьте написание " + intermediateCities[i].value);
+                    event.preventDefault();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function addIntermediateCity() {
+            const intermediateCitiesDiv = document.getElementById('intermediate-cities');
+            const newCityInput = document.createElement('input');
+            newCityInput.type = 'text';
+            newCityInput.name = 'intermediate_city'; // Имя поля
+            newCityInput.classList.add('intermediate-city'); // Добавляем класс для проверки
+            newCityInput.placeholder = 'Промежуточный город';
+            intermediateCitiesDiv.appendChild(newCityInput);
+            intermediateCitiesDiv.appendChild(document.createElement('br')); // Добавляем разрыв строки
+        }
+    </script>
+</head>
+<body>
+    <h1>Введите начальную и конечную точку маршрута</h1>
+    <form method="POST" onsubmit="return validateForm(event);">
+        <label for="start_point">Начальная точка:</label>
+        <input type="text" id="start_point" name="start_point" required>
+        <br><br>
+        <label for="end_point">Конечная точка:</label>
+        <input type="text" id="end_point" name="end_point" required>
+        <br><br>
+        
+        <div id="intermediate-cities">
+            <h3>Промежуточные города (необязательно):</h3>
+            <!-- Здесь будут динамически добавляться промежуточные города -->
+        </div>
+        
+        <button type="button" onclick="addIntermediateCity()">Добавить промежуточный город</button>
+        <br><br>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>

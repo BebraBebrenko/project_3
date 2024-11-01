@@ -38,6 +38,21 @@ services:
       - "8000"
     networks:
       - net
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    develop:
+      watch: 
+        # rebuild image and recreate service
+        - path: ./frontend
+          action: rebuild
+    expose:
+      - "3000"
+    ports:
+      - 3000:3000
+    networks:
+      - net
 
 networks:
   net:
