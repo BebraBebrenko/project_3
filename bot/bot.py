@@ -9,10 +9,14 @@ from aiogram.dispatcher.router import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+from dotenv import load_dotenv
+import os
 
-# Настройки бота
-API_TOKEN = "5440935604:AAHjL6UoRt1GIYNrLxOsxD-MYPIJfraJoMU"
-API_KEY = "lJCwqsDvEL8is1LFB0Eea4jRwHPPdPpH"
+load_dotenv()
+
+API_KEY = os.getenv("API_KEY")
+API_TOKEN = os.getenv("API_TOKEN")
+
 ACCUWEATHER_LOCATION_URL = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search"
 ACCUWEATHER_FORECAST_URL = "http://dataservice.accuweather.com/forecasts/v1/daily/"
 

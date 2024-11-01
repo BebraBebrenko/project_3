@@ -1,0 +1,4 @@
+asyncio
+aiogram
+requests
+logging

@@ -1,70 +1,94 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Форма маршрута</title>
-    <script>
-        function validateForm(event) {
-            const startPoint = document.getElementById('start_point').value;
-            const endPoint = document.getElementById('end_point').value;
-            const intermediateCities = document.querySelectorAll('.intermediate-city');
-            const regex = /^[а-яёА-ЯЁa-zA-Z\s]+$/;
-
-            if (!regex.test(startPoint)) {
-                alert("Начальная точка должна содержать только буквы и пробелы.");
-                event.preventDefault();
-                return false;
-            }
-
-            if (!regex.test(endPoint)) {
-                alert("Конечная точка должна содержать только буквы и пробелы.");
-                event.preventDefault();
-                return false;
-            }
-
-            // Проверяем промежуточные города
-            for (let i = 0; i < intermediateCities.length; i++) {
-                if (!regex.test(intermediateCities[i].value)) {
-                    alert("Промежуточные города должны содержать только буквы и пробелы. Проверьте написание " + intermediateCities[i].value);
-                    event.preventDefault();
-                    return false;
-                }
-            }
-
-            return true;
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Маршрут путешествия</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
         }
-
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        form {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: calc(100% - 16px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .intermediate-city {
+            margin-bottom: 10px;
+        }
+        #intermediate-cities {
+            margin-bottom: 16px;
+        }
+        .add-city-btn {
+            margin-top: 10px;
+        }
+    </style>
+    <script>
         function addIntermediateCity() {
-            const intermediateCitiesDiv = document.getElementById('intermediate-cities');
-            const newCityInput = document.createElement('input');
-            newCityInput.type = 'text';
-            newCityInput.name = 'intermediate_city'; // Имя поля
-            newCityInput.classList.add('intermediate-city'); // Добавляем класс для проверки
-            newCityInput.placeholder = 'Промежуточный город';
+            const intermediateCitiesDiv = document.getElementById("intermediate-cities");
+            const newCityInput = document.createElement("input");
+            newCityInput.type = "text";
+            newCityInput.name = "intermediate_city";
+            newCityInput.classList.add("intermediate-city");
+            newCityInput.placeholder = "Промежуточный город";
             intermediateCitiesDiv.appendChild(newCityInput);
-            intermediateCitiesDiv.appendChild(document.createElement('br')); // Добавляем разрыв строки
+            intermediateCitiesDiv.appendChild(document.createElement("br"));
         }
     </script>
 </head>
 <body>
-    <h1>Введите начальную и конечную точку маршрута</h1>
-    <form method="POST" onsubmit="return validateForm(event);">
+    <h1>Введите маршрут путешествия</h1>
+    <form method="POST">
         <label for="start_point">Начальная точка:</label>
-        <input type="text" id="start_point" name="start_point" required>
-        <br><br>
-        <label for="end_point">Конечная точка:</label>
-        <input type="text" id="end_point" name="end_point" required>
-        <br><br>
-        
+        <input type="text" id="start_point" name="start_point" required />
+
         <div id="intermediate-cities">
-            <h3>Промежуточные города (необязательно):</h3>
-            <!-- Здесь будут динамически добавляться промежуточные города -->
+            <label>Промежуточные города:</label>
+            <button type="button" class="add-city-btn" onclick="addIntermediateCity()">
+                Добавить промежуточный город
+            </button>
         </div>
-        
-        <button type="button" onclick="addIntermediateCity()">Добавить промежуточный город</button>
-        <br><br>
-        <button type="submit">Отправить</button>
+
+        <label for="end_point">Конечная точка:</label>
+        <input type="text" id="end_point" name="end_point" required />
+
+        <button type="submit">Построить маршрут</button>
     </form>
 </body>
 </html>

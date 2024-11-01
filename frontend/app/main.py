@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, redirect
 from dash import Dash, dcc, html, Input, Output, callback_context, ALL, ctx
-import dash_leaflet as dl
+import dash_leaflet 
 import plotly.graph_objs as go
 import json
-import pandas as pd
 from .utils.main import get_weather_data, get_city_coordinates
 
 app = Flask(__name__)
@@ -28,20 +27,16 @@ def index():
 dash_app.layout = html.Div([
     html.H1("Карта маршрута"),
 
-    # Flex container for map and weather graph
     html.Div([
-        # Map element
-        dl.Map(center=[50, 50], zoom=4, children=[
-            dl.TileLayer(),
-            dl.LayerGroup(id="markers-layer"),
-            dl.Polyline(id="route-line", positions=[])
+        dash_leaflet.Map(center=[50, 50], zoom=4, children=[
+            dash_leaflet.TileLayer(),
+            dash_leaflet.LayerGroup(id="markers-layer"),
+            dash_leaflet.Polyline(id="route-line", positions=[])
         ], id="map", style={'width': '50vw', 'height': '50vh'}),
         
-        # Weather graph container
         html.Div(id='weather-graph-container', style={'width': '50vw', 'height': '50vh'})
     ], style={'display': 'flex', 'width': '100%', 'justify-content': 'space-between'}),
 
-    # Dropdowns below the map and graph
     html.Div([
         dcc.Dropdown(
             id='metric-dropdown',
@@ -80,9 +75,9 @@ def add_route_and_markers(_):
         coords = get_city_coordinates(city)
         if coords:
             route_positions.append(coords)
-            marker = dl.Marker(position=coords, children=[
-                dl.Tooltip(city),
-                dl.Popup([html.H3(city), html.P("Нажмите для данных")])
+            marker = dash_leaflet.Marker(position=coords, children=[
+                dash_leaflet.Tooltip(city),
+                dash_leaflet.Popup([html.H3(city), html.P("Нажмите для данных")])
             ], id={'type': 'marker', 'index': city})
             city_markers.append(marker)
     return city_markers, route_positions
@@ -114,7 +109,7 @@ def update_graph(selected_metric, days, _):
             fig = go.Figure()
             fig.add_trace(go.Scatter(x=weather_data['date'], y=weather_data[selected_metric], mode='lines', name=selected_metric))
             fig.update_layout(
-                title=f'{replace_value(selected_metric)} в городе {city_name} за {days} дней',
+                title=f'{replace_value(selected_metric)} в {city_name} за {days} дней',
                 xaxis_title='Дата',
                 yaxis_title='Значение',
                 template='plotly_white'

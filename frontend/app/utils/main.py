@@ -1,9 +1,15 @@
 import requests
 import pandas as pd
-
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-API_KEY = "W5u4V5JsMDAwceKXJ8s9zN3VPrD5W9ed"
+# Загрузка переменных окружения из .env файла
+load_dotenv()
+
+# Получение API_KEY
+API_KEY = os.getenv("API_KEY")
+print(API_KEY)
 
 
 def get_weather_data(city, days):
